@@ -17,7 +17,7 @@ def get_yolact(weights, cuda):
 
 def get_args(score_threshold, top_k):
     args_dict = {
-        'crop': False,
+        'crop': True,
         'score_threshold': score_threshold,
         'display_lincomb': False,
         'top_k': top_k,
@@ -35,6 +35,7 @@ class YolactPredictor(BasePredictor):
 
     @torch.no_grad()
     def predict(self, img):
+        self.model.eval()
         preds = eval.evalimage(self.model, img)
         preds = postprocess(
             preds, self.width, self.height,
